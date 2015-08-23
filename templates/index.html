@@ -1,0 +1,62 @@
+<html>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+  <head>
+    <title>Ability Poro</title>
+  </head>
+  <body>
+    {% set poros = ['Astro', 'Dragon', 'Gentle', 'Mecha', 'Shadow'] %}
+    {% set poro = poros | random %}
+    <video id="bgVideo" autoplay loop>
+      <source src="{{ url_for('static', filename="webms/{}.webm".format(poro)) }}" type="video/webm">
+    </video>
+
+    <div class="header">
+    <h1>Ability Poro</h1>
+    </div>
+
+    <div class="page">
+      <table>
+        <tr>
+          <th>Champions</th>
+          <th>Pick Rate</th>
+          <th>Win Rate</th>
+          <th>Average KDA</th>
+          <th>Average Build</th>
+          <th>Pick Rate</th>
+          <th>Win Rate</th>
+          <th>Average KDA</th>
+          <th>Average Build</th>
+        </tr>
+      {% for i in range(champions | length) %}
+        {% if i%2==0 %}
+        <tr class="even">
+        {% else %}
+        <tr>
+        {% endif %}
+          <td>
+            <img style="float:left" src= {{ url_for('static', filename = "images/icons/{}.png".format(champions[i])) }} width="30" height="30" alt={{ champions[i] }} title={{ champions[i] }}>
+            <a style="line-height:30px;margin-left:20px;" href="{{ url_for('show_champion_details', championName=champions[i]) }}">{{ champions[i] }}</a>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+        </tr>
+      {% endfor %}
+      </table>
+    </div>
+    <p class="footnote">Ability Poro isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.</p>
+  </body>
+</html>
