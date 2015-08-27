@@ -18,14 +18,12 @@
       <table>
         <tr>
           <th>Champions</th>
-          <th>Pick Rate</th>
-          <th>Win Rate</th>
-          <th>Average KDA</th>
-          <th>Average Build</th>
-          <th>Pick Rate</th>
-          <th>Win Rate</th>
-          <th>Average KDA</th>
-          <th>Average Build</th>
+          <th>Pick Rate Patch 5.11</th>
+          <th>Pick Rate Patch 5.14</th>
+          <th>Win Rate Patch 5.11</th>
+          <th>Win Rate Patch 5.14</th>
+          <th>Avg KDA Patch 5.11</th>
+          <th>Avg KDA Patch 5.14</th>
         </tr>
       {% for i in range(champions | length) %}
         {% if i%2==0 %}
@@ -34,24 +32,61 @@
         <tr>
         {% endif %}
           <td>
-            <img style="float:left" src= {{ url_for('static', filename = "images/icons/{}.png".format(champions[i])) }} width="30" height="30" alt={{ champions[i] }} title={{ champions[i] }}>
-            <a style="line-height:30px;margin-left:20px;" href="{{ url_for('show_champion_details', championName=champions[i]) }}">{{ champions[i] }}</a>
+            {% if champions[i]=="Wukong" %}
+              <img style="float:left" src={{ "http://ddragon.leagueoflegends.com/cdn/5.14.1/img/champion/MonkeyKing.png"}}  width="30" height="30" alt="Wukong" title="Wukong">
+            {% else %}
+              <img style="float:left" src={{ "http://ddragon.leagueoflegends.com/cdn/5.14.1/img/champion/{}.png".format(champions[i]) }}  width="30" height="30" alt={{ champions[i] }} title={{ champions[i] }}>
+            {% endif %}
+            <a style="line-height:30px;margin-left:10px;" href="{{ url_for('show_champion_details', championName=champions[i]) }}">{{ champions[i] }}</a>
           </td>
           <td>
+            {% if not champions[i]=="TahmKench" %}
+              {% set pickBefore=(before["{}".format(championIds[champions[i]])]['wins'] + before["{}".format(championIds[champions[i]])]['losses'])/2000000 * 100 %}
+              {{ "{0:.2f}%".format(pickBefore) }}
+            {% endif %}
           </td>
           <td>
+            {% set pickAfter=(after["{}".format(championIds[champions[i]])]['wins'] + after["{}".format(championIds[champions[i]])]['losses'])/2000000 * 100 %}
+            {% if pickBefore < pickAfter %}
+              <div class="up"></div>
+            {% else %}
+              <div class="down"></div>
+            {% endif %}
+            {{ "{0:.2f}%".format(pickAfter) }}
           </td>
           <td>
+            {% if not champions[i]=="TahmKench" %}
+              {% set winBefore=(before["{}".format(championIds[champions[i]])]['wins'])/(before["{}".format(championIds[champions[i]])]['wins'] + before["{}".format(championIds[champions[i]])]['losses']) * 100 %}
+              {{ "{0:.2f}%".format(winBefore) }}
+            {% endif %}
           </td>
           <td>
+            {% set winAfter=(after["{}".format(championIds[champions[i]])]['wins'])/(after["{}".format(championIds[champions[i]])]['wins'] + after["{}".format(championIds[champions[i]])]['losses']) * 100 %}
+            {% if winBefore < winAfter %}
+              <div class="up"></div>
+            {% else %}
+              <div class="down"></div>
+            {% endif %}
+            {{ "{0:.2f}%".format(winAfter) }}
           </td>
           <td>
+            {% if not champions[i]=="TahmKench" %}
+              {{ "{:.1f} / {:.1f} / {:.1f}".format((before["{}".format(championIds[champions[i]])]['kills']/(before["{}".format(championIds[champions[i]])]['wins'] + before["{}".format(championIds[champions[i]])]['losses'])), (before["{}".format(championIds[champions[i]])]['deaths']/(before["{}".format(championIds[champions[i]])]['wins'] + before["{}".format(championIds[champions[i]])]['losses'])), (before["{}".format(championIds[champions[i]])]['assists']/(before["{}".format(championIds[champions[i]])]['wins'] + before["{}".format(championIds[champions[i]])]['losses']))) }}
+              <br>
+              {% set kdaBefore=(before["{}".format(championIds[champions[i]])]['kills'] + before["{}".format(championIds[champions[i]])]['assists'])/before["{}".format(championIds[champions[i]])]['deaths'] %}
+              {{ "Average {:.2f}:1 KDA".format(kdaBefore) }}
+            {% endif %}
           </td>
           <td>
-          </td>
-          <td>
-          </td>
-          <td>
+            {{ "{:.1f} / {:.1f} / {:.1f}".format((after["{}".format(championIds[champions[i]])]['kills']/(after["{}".format(championIds[champions[i]])]['wins'] + after["{}".format(championIds[champions[i]])]['losses'])), (after["{}".format(championIds[champions[i]])]['deaths']/(after["{}".format(championIds[champions[i]])]['wins'] + after["{}".format(championIds[champions[i]])]['losses'])), (after["{}".format(championIds[champions[i]])]['assists']/(after["{}".format(championIds[champions[i]])]['wins'] + after["{}".format(championIds[champions[i]])]['losses']))) }}
+            <br>
+            {% set kdaAfter=(after["{}".format(championIds[champions[i]])]['kills'] + after["{}".format(championIds[champions[i]])]['assists'])/after["{}".format(championIds[champions[i]])]['deaths'] %}
+            {% if kdaBefore < kdaAfter %}
+              <div class="up"></div>
+            {% else %}
+              <div class="down"></div>
+            {% endif %}
+            {{ "Average {:.2f}:1 KDA".format(kdaAfter) }}
           </td>
         </tr>
       {% endfor %}

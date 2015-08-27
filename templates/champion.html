@@ -16,10 +16,14 @@
 
     <div class="page">
       <h2>{{ championName }}</h2>
-      <img src= {{ url_for('static', filename = "images/splashes/{}.jpg".format(championName)) }} width="100%" alt={{ championName }} title={{ championName }}>
+      {% if championName=="Wukong" %}
+        <img src= {{ "http://ddragon.leagueoflegends.com/cdn/img/champion/splash/MonkeyKing_0.jpg" }} width="100%" alt={{ championName }} title={{ championName }}>
+      {% else %}
+        <img src= {{ "http://ddragon.leagueoflegends.com/cdn/img/champion/splash/{}_0.jpg".format(championName) }} width="100%" alt={{ championName }} title={{ championName }}>
+      {% endif %}
     </div>
 
-    
+
     <p class="footnote">Ability Poro isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.</p>
   </body>
 </html>
