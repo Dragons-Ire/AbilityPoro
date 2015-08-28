@@ -5,6 +5,10 @@ import json
 
 app = Flask(__name__)
 
+url = "/var/www/league/html/AbilityPoro/"
+
+# url = ""
+
 @app.route("/")
 def index():
     championList = get_champion_ids()
@@ -14,9 +18,9 @@ def index():
         championIds[championList[key]] = key
         championIcons.append(championList[key])
     championIcons.sort()
-    with open('static/data/5.11Champions.json') as f:
+    with open(url + 'static/data/5.11Champions.json') as f:
         before = json.load(f)
-    with open('static/data/5.14Champions.json') as f:
+    with open(url + 'static/data/5.14Champions.json') as f:
         after = json.load(f)
     return render_template('index.html', champions=championIcons, championIds=championIds, before=before , after=after)
 

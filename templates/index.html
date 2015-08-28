@@ -4,11 +4,22 @@
     <title>Ability Poro</title>
   </head>
   <body>
-    {% set poros = ['Astro', 'Dragon', 'Gentle', 'Mecha', 'Shadow'] %}
-    {% set poro = poros | random %}
     <video id="bgVideo" autoplay loop>
-      <source src="{{ url_for('static', filename="webms/{}.webm".format(poro)) }}" type="video/webm">
+      <source src=" " type="video/webm" id="source">
     </video>
+
+    <script type="text/javascript">
+        function poro() {
+            var poros = ["Astro", "Dragon", "Gentle", "Mecha", "Shadow"];
+            poro = poros[Math.floor(Math.random() * poros.length)];
+
+            var video = document.getElementById('bgVideo');
+            src = "http://teamcomp.me/static/webms/" + poro + ".webm";
+            console.log(src);
+            video.src = src;
+        }
+        window.onload = poro();
+    </script>
 
     <div class="header">
     <h1>Ability Poro</h1>
