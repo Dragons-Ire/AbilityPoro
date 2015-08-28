@@ -12,6 +12,16 @@ h3              { font-size: 1.0em; }
 .header         { text-align: center; }
 .footnote       { text-align: center; font-size: 10px; width: 800px; margin: 2em auto;}
 
+.champbox       { border: 3px solid #666; }
+.textbox        { background-color: rgba(0, 0, 0, 0.5); padding: 10px; color: #fff;
+                  text-shadow: 1px 1px 0px #000; font-size: 20px; width: 250px; margin:30px;}
+
+.textbox-title  { text-align:center; font-size: 30px;}
+.textbox-element{ }
+
+.items          { color: #fff; text-shadow: 1px 1px 0px #000; font-size: 20px; margin:30px;}
+.items-title    { font-size: 30px;}
+
 .up {
   float: left;
 	width: 0;

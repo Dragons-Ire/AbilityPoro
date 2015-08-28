@@ -26,7 +26,48 @@ def index():
 
 @app.route("/<championName>")
 def show_champion_details(championName):
-    return render_template('champion.html', championName=championName)
+    championList = get_champion_ids()
+    championIds = {}
+    for key in championList:
+        championIds[championList[key]] = key
+    with open('static/data/5.11Champions.json') as f:
+        before = json.load(f)
+    with open('static/data/5.14Champions.json') as f:
+        after = json.load(f)
+    itemNames = get_item_ids()
+    for champion in before:
+        items = []
+        for item in before[champion]['items']:
+            if len(items) == 0:
+                items.append(item)
+            else:
+                thing = False
+                for i in range(len(items)):
+                    if before[champion]['items'][item] > before[champion]['items'][items[i]]:
+                        items.insert(i, item)
+                        thing = True
+                        break
+                if not thing:
+                    items.append(item)
+        print(items)
+        before[champion]['itemsSorted'] = items
+    for champion in after:
+        items = []
+        for item in after[champion]['items']:
+            if len(items) == 0:
+                items.append(item)
+            else:
+                thing = False
+                for i in range(len(items)):
+                    if after[champion]['items'][item] > after[champion]['items'][items[i]]:
+                        items.insert(i, item)
+                        thing = True
+                        break
+                if not thing:
+                    items.append(item)
+        print(items)
+        after[champion]['itemsSorted'] = items
+    return render_template('champion.html', championName=championName, championIds=championIds, itemNames=itemNames, before=before , after=after)
 
 @app.route("/items")
 def items():
