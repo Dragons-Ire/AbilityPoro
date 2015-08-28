@@ -28,69 +28,90 @@
         <div class="textbox-title">
           Pick Rate
         </div>
-        5.11
-        {% if not championName=="TahmKench" %}
-          {% set pickBefore=(before[(championIds[championName] | string)]['wins'] + before[(championIds[championName] | string)]['losses'])/2000000 * 100 %}
-          {{ "{0:.2f}%".format(pickBefore) }}
-        {% endif %}
-        <br>
-        5.14
+        <div style="float:left">
+          5.11
+        </div>
+        <div style="float:right">
+          {% if not championName=="TahmKench" %}
+            {% set pickBefore=(before[(championIds[championName] | string)]['wins'] + before[(championIds[championName] | string)]['losses'])/2000000 * 100 %}
+            {{ "{0:.2f}%".format(pickBefore) }}
+          {% endif %}
+        </div>
+        <div style="clear:both;float:left">
+          5.14
+        </div>
         {% set pickAfter=(after["{}".format(championIds[championName])]['wins'] + after["{}".format(championIds[championName])]['losses'])/2000000 * 100 %}
         {% if pickBefore < pickAfter %}
-          <div class="up"></div>
+          <div class="up" style="margin-left:80px"></div>
         {% else %}
-          <div class="down"></div>
+          <div class="down" style="margin-left:80px"></div>
         {% endif %}
-        {{ "{0:.2f}%".format(pickAfter) }}
+        <div style="float:right">
+          {{ "{0:.2f}%".format(pickAfter) }}
+        </div>
       </div>
 
       <div class="textbox" style="float:left;">
         <div class="textbox-title">
           Win Rate
         </div>
-        5.11
-        {% if not championName=="TahmKench" %}
-          {% set winBefore=(before["{}".format(championIds[championName])]['wins'])/(before["{}".format(championIds[championName])]['wins'] + before["{}".format(championIds[championName])]['losses']) * 100 %}
-          {{ "{0:.2f}%".format(winBefore) }}
-        {% endif %}
-        <br>
-        5.14
+        <div style="float:left">
+          5.11
+        </div>
+        <div style="float:right">
+          {% if not championName=="TahmKench" %}
+            {% set winBefore=(before["{}".format(championIds[championName])]['wins'])/(before["{}".format(championIds[championName])]['wins'] + before["{}".format(championIds[championName])]['losses']) * 100 %}
+            {{ "{0:.2f}%".format(winBefore) }}
+          {% endif %}
+        </div>
+        <div style="clear:both;float:left">
+          5.14
+        </div>
         {% set winAfter=(after["{}".format(championIds[championName])]['wins'])/(after["{}".format(championIds[championName])]['wins'] + after["{}".format(championIds[championName])]['losses']) * 100 %}
         {% if winBefore < winAfter %}
-          <div class="up"></div>
+          <div class="up" style="margin-left:80px"></div>
         {% else %}
-          <div class="down"></div>
+          <div class="down" style="margin-left:80px"></div>
         {% endif %}
-        {{ "{0:.2f}%".format(winAfter) }}
+        <div style="float:right">
+          {{ "{0:.2f}%".format(winAfter) }}
+        </div>
       </div>
 
       <div class="textbox" style="float:right">
         <div class="textbox-title">
           Average KDA
         </div>
-        5.11
-        {% if not championName=="TahmKench" %}
-          {{ "{:.1f} / {:.1f} / {:.1f}".format((before["{}".format(championIds[championName])]['kills']/(before["{}".format(championIds[championName])]['wins'] + before["{}".format(championIds[championName])]['losses'])), (before["{}".format(championIds[championName])]['deaths']/(before["{}".format(championIds[championName])]['wins'] + before["{}".format(championIds[championName])]['losses'])), (before["{}".format(championIds[championName])]['assists']/(before["{}".format(championIds[championName])]['wins'] + before["{}".format(championIds[championName])]['losses']))) }}
+        <div style="float:left">
+          5.11
+        </div>
+        <div style="float:right">
+          {% if not championName=="TahmKench" %}
+            {{ "{:.1f} / {:.1f} / {:.1f}".format((before["{}".format(championIds[championName])]['kills']/(before["{}".format(championIds[championName])]['wins'] + before["{}".format(championIds[championName])]['losses'])), (before["{}".format(championIds[championName])]['deaths']/(before["{}".format(championIds[championName])]['wins'] + before["{}".format(championIds[championName])]['losses'])), (before["{}".format(championIds[championName])]['assists']/(before["{}".format(championIds[championName])]['wins'] + before["{}".format(championIds[championName])]['losses']))) }}
+            <br>
+            {% set kdaBefore=(before["{}".format(championIds[championName])]['kills'] + before["{}".format(championIds[championName])]['assists'])/before["{}".format(championIds[championName])]['deaths'] %}
+            {{ "Average {:.2f}:1 KDA".format(kdaBefore) }}
+          {% endif %}
+        </div>
+        <div style="clear:both;float:left">
+          5.14
+        </div>
+        <div style="float:right">
+          {{ "{:.1f} / {:.1f} / {:.1f}".format((after["{}".format(championIds[championName])]['kills']/(after["{}".format(championIds[championName])]['wins'] + after["{}".format(championIds[championName])]['losses'])), (after["{}".format(championIds[championName])]['deaths']/(after["{}".format(championIds[championName])]['wins'] + after["{}".format(championIds[championName])]['losses'])), (after["{}".format(championIds[championName])]['assists']/(after["{}".format(championIds[championName])]['wins'] + after["{}".format(championIds[championName])]['losses']))) }}
           <br>
-          {% set kdaBefore=(before["{}".format(championIds[championName])]['kills'] + before["{}".format(championIds[championName])]['assists'])/before["{}".format(championIds[championName])]['deaths'] %}
-          {{ "Average {:.2f}:1 KDA".format(kdaBefore) }}
-        {% endif %}
-        <br>
-        5.14
-        {{ "{:.1f} / {:.1f} / {:.1f}".format((after["{}".format(championIds[championName])]['kills']/(after["{}".format(championIds[championName])]['wins'] + after["{}".format(championIds[championName])]['losses'])), (after["{}".format(championIds[championName])]['deaths']/(after["{}".format(championIds[championName])]['wins'] + after["{}".format(championIds[championName])]['losses'])), (after["{}".format(championIds[championName])]['assists']/(after["{}".format(championIds[championName])]['wins'] + after["{}".format(championIds[championName])]['losses']))) }}
-        <br>
-        {% set kdaAfter=(after["{}".format(championIds[championName])]['kills'] + after["{}".format(championIds[championName])]['assists'])/after["{}".format(championIds[championName])]['deaths'] %}
-        {% if kdaBefore < kdaAfter %}
-          <div class="up"></div>
-        {% else %}
-          <div class="down"></div>
-        {% endif %}
-        {{ "Average {:.2f}:1 KDA".format(kdaAfter) }}
+          {% set kdaAfter=(after["{}".format(championIds[championName])]['kills'] + after["{}".format(championIds[championName])]['assists'])/after["{}".format(championIds[championName])]['deaths'] %}
+          {% if kdaBefore < kdaAfter %}
+            <div class="up"></div>
+          {% else %}
+            <div class="down"></div>
+          {% endif %}
+          {{ "Average {:.2f}:1 KDA".format(kdaAfter) }}
+        </div>
       </div>
 
       <div class="items" style="clear:both">
         <div class="items-title">
-          Top Builds
+          Most Popular Full Builds
         </div>
         <div style="text-align:center;width:350px;margin-top:10px">
           <div>
@@ -98,7 +119,7 @@
           </div>
           {% for item in before["{}".format(championIds[championName])]['topBuild'][0] %}
             <div style="float:left;margin:4px;">
-              <img src={{ "http://ddragon.leagueoflegends.com/cdn/5.11.1/img/item/{}.png".format(item) }} width="50" height="50" alt={{ itemNames[item] }} title={{ itemNames[item] }}>
+              <img src={{ "http://ddragon.leagueoflegends.com/cdn/5.11.1/img/item/{}.png".format(item) }} width="50" height="50" alt="{{ itemNames[item] }}" title="{{ itemNames[item] }}">
             </div>
           {% endfor %}
           <div style="font-size:12px">
@@ -111,7 +132,7 @@
           </div>
           {% for item in after["{}".format(championIds[championName])]['topBuild'][0] %}
             <div style="float:left;margin:4px;">
-              <img src={{ "http://ddragon.leagueoflegends.com/cdn/5.14.1/img/item/{}.png".format(item) }} width="50" height="50" alt={{ itemNames[item] }} title={{ itemNames[item] }}>
+              <img src={{ "http://ddragon.leagueoflegends.com/cdn/5.14.1/img/item/{}.png".format(item) }} width="50" height="50" alt="{{ itemNames[item] }}" title="{{ itemNames[item] }}">
             </div>
           {% endfor %}
           <div style="font-size:12px">
@@ -122,7 +143,7 @@
 
       <div class="items" style="margin-top:60px">
         <div class="items-title">
-          Top items
+          Most Popular Items
         </div>
         <div style="text-align:center;width:470px;margin-top:10px">
           <div>
@@ -131,7 +152,7 @@
           {% for i in range(before["{}".format(championIds[championName])]['itemsSorted'] | length) %}
             {% set item=before["{}".format(championIds[championName])]['itemsSorted'][i] %}
             <div style="float:left;margin:4px;">
-              <img src={{ "http://ddragon.leagueoflegends.com/cdn/5.11.1/img/item/{}.png".format(item) }} width="50" height="50" alt={{ itemNames[item] }} title={{ itemNames[item] }}>
+              <img src={{ "http://ddragon.leagueoflegends.com/cdn/5.11.1/img/item/{}.png".format(item) }} width="50" height="50" alt="{{ itemNames[item] }}" title="{{ itemNames[item] }}">
               <div style="font-size:12px">
                 {{ "{:.2f}%".format(before["{}".format(championIds[championName])]['items'][item]/(before["{}".format(championIds[championName])]['wins'] + before["{}".format(championIds[championName])]['losses']) * 100) }}
               </div>
@@ -145,7 +166,7 @@
           {% for i in range(after["{}".format(championIds[championName])]['itemsSorted'] | length) %}
             {% set item=after["{}".format(championIds[championName])]['itemsSorted'][i] %}
             <div style="float:left;margin:4px;">
-              <img src={{ "http://ddragon.leagueoflegends.com/cdn/5.14.1/img/item/{}.png".format(item) }} width="50" height="50" alt={{ itemNames[item] }} title={{ itemNames[item] }}>
+              <img src={{ "http://ddragon.leagueoflegends.com/cdn/5.14.1/img/item/{}.png".format(item) }} width="50" height="50" alt="{{ itemNames[item] }}" title="{{ itemNames[item] }}">
               <div style="font-size:12px">
                 {{ "{:.2f}%".format(after["{}".format(championIds[championName])]['items'][item]/(after["{}".format(championIds[championName])]['wins'] + after["{}".format(championIds[championName])]['losses']) * 100) }}
               </div>
