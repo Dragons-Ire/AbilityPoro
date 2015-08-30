@@ -4,14 +4,27 @@
     <title>Ability Poro</title>
   </head>
   <body>
-    {% set poros = ['Astro', 'Dragon', 'Gentle', 'Mecha', 'Shadow'] %}
-    {% set poro = poros | random %}
     <video id="bgVideo" autoplay loop>
       <source src="{{ url_for('static', filename="webms/{}.webm".format(poro)) }}" type="video/webm">
     </video>
 
+    <script type="text/javascript">
+        function poro() {
+            var poros = ["Astro", "Dragon", "Gentle", "Mecha", "Shadow"];
+            poro = poros[Math.floor(Math.random() * poros.length)];
+
+            var video = document.getElementById('bgVideo');
+            src = "http://teamcomp.me/static/webms/" + poro + ".webm";
+            console.log(src);
+            video.src = src;
+        }
+        window.onload = poro();
+    </script>
+
     <div class="header">
-    <h1>Ability Poro</h1>
+      <a style="margin-left:30px;text-decoration:none;font-size: 4.4em;" href="{{ url_for('index') }}">Ability Poro</a>
+      <a style="margin-left:50px;text-decoration:none;font-size: 2.0em;" href="{{ url_for('champions') }}">Champions</a>
+      <a style="margin-left:30px;text-decoration:none;font-size: 2.0em;" href="{{ url_for('items') }}">Items</a>
     </div>
 
     <div class="page">
@@ -35,6 +48,8 @@
           {% if not championName=="TahmKench" %}
             {% set pickBefore=(before[(championIds[championName] | string)]['wins'] + before[(championIds[championName] | string)]['losses'])/2000000 * 100 %}
             {{ "{0:.2f}%".format(pickBefore) }}
+          {% else %}
+            {% set pickBefore=0 %}
           {% endif %}
         </div>
         <div style="clear:both;float:left">
@@ -62,6 +77,8 @@
           {% if not championName=="TahmKench" %}
             {% set winBefore=(before["{}".format(championIds[championName])]['wins'])/(before["{}".format(championIds[championName])]['wins'] + before["{}".format(championIds[championName])]['losses']) * 100 %}
             {{ "{0:.2f}%".format(winBefore) }}
+          {% else %}
+            {% set winBefore=0 %}
           {% endif %}
         </div>
         <div style="clear:both;float:left">
@@ -78,7 +95,7 @@
         </div>
       </div>
 
-      <div class="textbox" style="float:right">
+      <div class="textbox" style="float:left">
         <div class="textbox-title">
           Average KDA
         </div>
@@ -91,20 +108,22 @@
             <br>
             {% set kdaBefore=(before["{}".format(championIds[championName])]['kills'] + before["{}".format(championIds[championName])]['assists'])/before["{}".format(championIds[championName])]['deaths'] %}
             {{ "Average {:.2f}:1 KDA".format(kdaBefore) }}
+          {% else %}
+            {% set kdaBefore=0 %}
           {% endif %}
         </div>
         <div style="clear:both;float:left">
           5.14
         </div>
+        {% set kdaAfter=(after["{}".format(championIds[championName])]['kills'] + after["{}".format(championIds[championName])]['assists'])/after["{}".format(championIds[championName])]['deaths'] %}
+        {% if kdaBefore < kdaAfter %}
+          <div class="up"></div>
+        {% else %}
+          <div class="down"></div>
+        {% endif %}
         <div style="float:right">
           {{ "{:.1f} / {:.1f} / {:.1f}".format((after["{}".format(championIds[championName])]['kills']/(after["{}".format(championIds[championName])]['wins'] + after["{}".format(championIds[championName])]['losses'])), (after["{}".format(championIds[championName])]['deaths']/(after["{}".format(championIds[championName])]['wins'] + after["{}".format(championIds[championName])]['losses'])), (after["{}".format(championIds[championName])]['assists']/(after["{}".format(championIds[championName])]['wins'] + after["{}".format(championIds[championName])]['losses']))) }}
           <br>
-          {% set kdaAfter=(after["{}".format(championIds[championName])]['kills'] + after["{}".format(championIds[championName])]['assists'])/after["{}".format(championIds[championName])]['deaths'] %}
-          {% if kdaBefore < kdaAfter %}
-            <div class="up"></div>
-          {% else %}
-            <div class="down"></div>
-          {% endif %}
           {{ "Average {:.2f}:1 KDA".format(kdaAfter) }}
         </div>
       </div>
@@ -113,19 +132,21 @@
         <div class="items-title">
           Most Popular Full Builds
         </div>
+        {% if not championName=="TahmKench" %}
         <div style="text-align:center;width:350px;margin-top:10px">
           <div>
             5.11
           </div>
-          {% for item in before["{}".format(championIds[championName])]['topBuild'][0] %}
-            <div style="float:left;margin:4px;">
-              <img src={{ "http://ddragon.leagueoflegends.com/cdn/5.11.1/img/item/{}.png".format(item) }} width="50" height="50" alt="{{ itemNames[item] }}" title="{{ itemNames[item] }}">
+            {% for item in before["{}".format(championIds[championName])]['topBuild'][0] %}
+              <div style="float:left;margin:4px;">
+                <img src={{ "http://ddragon.leagueoflegends.com/cdn/5.11.1/img/item/{}.png".format(item) }} width="50" height="50" alt="{{ itemNames[item] }}" title="{{ itemNames[item] }}">
+              </div>
+            {% endfor %}
+            <div style="font-size:12px">
+              (bought {{ before["{}".format(championIds[championName])]['topBuild'][1] }} times)
             </div>
-          {% endfor %}
-          <div style="font-size:12px">
-            (bought {{ before["{}".format(championIds[championName])]['topBuild'][1] }} times)
-          </div>
         </div>
+        {% endif %}
         <div style="text-align:center;width:350px;margin-top:10px">
           <div>
             5.14
@@ -145,21 +166,23 @@
         <div class="items-title">
           Most Popular Items
         </div>
+        {% if not championName=="TahmKench" %}
         <div style="text-align:center;width:470px;margin-top:10px">
           <div>
             5.11
           </div>
-          {% for i in range(before["{}".format(championIds[championName])]['itemsSorted'] | length) %}
-            {% set item=before["{}".format(championIds[championName])]['itemsSorted'][i] %}
-            <div style="float:left;margin:4px;">
-              <img src={{ "http://ddragon.leagueoflegends.com/cdn/5.11.1/img/item/{}.png".format(item) }} width="50" height="50" alt="{{ itemNames[item] }}" title="{{ itemNames[item] }}">
-              <div style="font-size:12px">
-                {{ "{:.2f}%".format(before["{}".format(championIds[championName])]['items'][item]/(before["{}".format(championIds[championName])]['wins'] + before["{}".format(championIds[championName])]['losses']) * 100) }}
+            {% for i in range(before["{}".format(championIds[championName])]['itemsSorted'] | length) %}
+              {% set item=before["{}".format(championIds[championName])]['itemsSorted'][i] %}
+              <div style="float:left;margin:4px;">
+                <img src={{ "http://ddragon.leagueoflegends.com/cdn/5.11.1/img/item/{}.png".format(item) }} width="50" height="50" alt="{{ itemNames[item] }}" title="{{ itemNames[item] }}">
+                <div style="font-size:12px">
+                  {{ "{:.2f}%".format(before["{}".format(championIds[championName])]['items'][item]/(before["{}".format(championIds[championName])]['wins'] + before["{}".format(championIds[championName])]['losses']) * 100) }}
+                </div>
               </div>
-            </div>
-          {% endfor %}
+            {% endfor %}
         </div>
-        <div style="text-align:center;width:470px;margin-top:80px">
+        {% endif %}
+        <div style="text-align:center;width:470px;margin-top:20px">
           <div>
             5.14
           </div>

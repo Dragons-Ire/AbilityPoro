@@ -11,6 +11,10 @@ url = "/var/www/league/html/AbilityPoro/"
 
 @app.route("/")
 def index():
+    return render_template('index.html')
+
+@app.route("/champions")
+def champions():
     championList = get_champion_ids()
     championIcons = []
     championIds = {}
@@ -22,7 +26,7 @@ def index():
         before = json.load(f)
     with open(url + 'static/data/5.14Champions.json') as f:
         after = json.load(f)
-    return render_template('index.html', champions=championIcons, championIds=championIds, before=before , after=after)
+    return render_template('champions.html', champions=championIcons, championIds=championIds, before=before , after=after)
 
 @app.route("/<championName>")
 def show_champion_details(championName):
@@ -30,9 +34,9 @@ def show_champion_details(championName):
     championIds = {}
     for key in championList:
         championIds[championList[key]] = key
-    with open('static/data/5.11Champions.json') as f:
+    with open(url + 'static/data/5.11Champions.json') as f:
         before = json.load(f)
-    with open('static/data/5.14Champions.json') as f:
+    with open(url + 'static/data/5.14Champions.json') as f:
         after = json.load(f)
     itemNames = get_item_ids()
     for champion in before:
@@ -49,7 +53,6 @@ def show_champion_details(championName):
                         break
                 if not thing:
                     items.append(item)
-        print(items)
         before[champion]['itemsSorted'] = items
     for champion in after:
         items = []
@@ -65,12 +68,12 @@ def show_champion_details(championName):
                         break
                 if not thing:
                     items.append(item)
-        print(items)
         after[champion]['itemsSorted'] = items
     return render_template('champion.html', championName=championName, championIds=championIds, itemNames=itemNames, before=before , after=after)
 
 @app.route("/items")
 def items():
+    championList = get_champion_ids()
     itemList = get_item_ids()
     itemNames = []
     for key in itemList:
@@ -79,7 +82,12 @@ def items():
     itemDict = {}
     for itemId in itemList:
         itemDict[itemList[itemId]] = itemId
-    return render_template('items.html', itemNames=itemNames, itemDict=itemDict)
+    with open(url + 'static/data/5.11Items.json') as f:
+        before = json.load(f)
+    with open(url + 'static/data/5.14Items.json') as f:
+        after = json.load(f)
+
+    return render_template('items.html', championList=championList, itemNames=itemNames, itemDict=itemDict, before=before, after=after)
 
 def get_champion_ids():
     return {1: 'Annie', 2: 'Olaf', 3: 'Galio', 4: 'TwistedFate', 5: 'XinZhao', 6: 'Urgot', 7: 'Leblanc',
@@ -103,7 +111,7 @@ def get_champion_ids():
     223: 'TahmKench'}
 
 def get_item_ids():
-    return {3072: 'The Bloodthirster', 2049: 'Sightstone', 2050: "Explorer's Ward", 3075: 'Thornmail',
+    return {3072: 'The Bloodthirster', 2049: 'Sightstone', 3075: 'Thornmail',
     1029: 'Cloth Armor', 3078: 'Trinity Force', 1031: 'Chain Vest', 1033: 'Null-Magic Mantle',
     3082: "Warden's Mail", 3083: "Warmog's Armor", 1036: 'Long Sword', 1037: 'Pickaxe', 1038: 'B. F. Sword',
     3599: 'The Black Spear', 3089: "Rabadon's Deathcap", 1042: 'Dagger', 1043: 'Recurve Bow',
@@ -123,18 +131,15 @@ def get_item_ids():
     3174: "Athene's Unholy Grail", 3091: "Wit's End", 3190: 'Locket of the Iron Solari', 3191: "Seeker's Armguard",
     3706: "Stalker's Blade", 3707: 'Enchantment: Warrior', 3708: 'Enchantment: Magus', 3709: 'Enchantment: Cinderhulk',
     3198: 'Perfect Hex Core', 3711: "Poacher's Knife", 3200: 'Prototype Hex Core', 3713: "Ranger's Trailblazer",
-    3714: 'Enchantment: Warrior', 3715: "Skirmisher's Sabre", 3716: 'Enchantment: Magus',
-    3717: 'Enchantment: Cinderhulk', 3718: 'Enchantment: Devourer', 3719: 'Enchantment: Warrior',
-    3720: 'Enchantment: Magus', 3721: 'Enchantment: Cinderhulk', 3722: 'Enchantment: Devourer',
-    3211: "Spectre's Cowl", 3724: 'Enchantment: Magus', 3725: 'Enchantment: Cinderhulk',
-    3726: 'Enchantment: Devourer', 3222: "Mikael's Crucible", 3097: "Targon's Brace",
+    3715: "Skirmisher's Sabre", 3718: 'Enchantment: Devourer', 3211: "Spectre's Cowl", 3222: "Mikael's Crucible",
+    3097: "Targon's Brace",
     3074: 'Ravenous Hydra (Melee Only)', 3751: "Bami's Cinder", 3100: 'Lich Bane',
     3101: 'Stinger', 1055: "Doran's Blade", 3105: 'Aegis of the Legion', 3285: "Luden's Echo",
     3800: 'Righteous Glory', 3801: 'Crystalline Bracer',
     3301: 'Ancient Coin', 3302: 'Relic Shield', 3303: "Spellthief's Edge", 3196: 'The Hex Core mk-1',
-    3197: 'The Hex Core mk-2', 3027: 'Rod of Ages', 3710: 'Enchantment: Devourer', 3028: 'Chalice of Harmony',
+    3197: 'The Hex Core mk-2', 3027: 'Rod of Ages', 3028: 'Chalice of Harmony',
     3077: 'Tiamat (Melee Only)', 3031: 'Infinity Edge',
-    3723: 'Enchantment: Warrior', 3401: 'Face of the Mountain', 3050: "Zeke's Herald", 1027: 'Sapphire Crystal',
+    3401: 'Face of the Mountain', 3050: "Zeke's Herald", 1027: 'Sapphire Crystal',
     3151: "Liandry's Torment", 3504: 'Ardent Censer', 3508: 'Essence Reaver', 3512: "Zz'Rot Portal",
     3001: 'Abyssal Scepter', 3003: "Archangel's Staff", 3004: 'Manamune', 3006: "Berserker's Greaves",
     3009: 'Boots of Swiftness', 3010: 'Catalyst the Protector', 3020: "Sorcerer's Shoes", 3022: 'Frozen Mallet',

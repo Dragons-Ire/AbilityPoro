@@ -7,9 +7,10 @@ h3              { font-size: 1.0em; }
 
 
 
-.page           { margin: 2em auto; width: 80%; border: 5px solid #ccc;
+.page           { margin: 2em auto; width: 85%; border: 5px solid #ccc;
                   padding: 0.8em; background-color: rgba(0,0,0,0.5); overflow: hidden;}
-.header         { text-align: center; }
+.header         { text-align: center; font-weight: bold;
+                  color: #1CC1CC; font-family: 'Georgia', serif; margin-top: 50; text-shadow: 0px 1px #000;}
 .footnote       { text-align: center; font-size: 10px; width: 800px; margin: 2em auto;}
 
 .champbox       { border: 3px solid #666; }
@@ -94,7 +95,7 @@ table {
 	box-shadow: 0 1px 2px #d1d1d1;
 }
 table th {
-	padding:15px 0px 15px 0px;
+	padding:15px 4px 15px 4px;
 	border-bottom:1px solid #e0e0e0;
   font-size:16px;
 

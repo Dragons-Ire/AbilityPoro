@@ -4,48 +4,113 @@
     <title>Ability Poro</title>
   </head>
   <body>
-    {% set poros = ['Astro', 'Dragon', 'Gentle', 'Mecha', 'Shadow'] %}
-    {% set poro = poros | random %}
     <video id="bgVideo" autoplay loop>
       <source src="{{ url_for('static', filename="webms/{}.webm".format(poro)) }}" type="video/webm">
     </video>
 
+    <script type="text/javascript">
+        function poro() {
+            var poros = ["Astro", "Dragon", "Gentle", "Mecha", "Shadow"];
+            poro = poros[Math.floor(Math.random() * poros.length)];
+
+            var video = document.getElementById('bgVideo');
+            src = "http://teamcomp.me/static/webms/" + poro + ".webm";
+            console.log(src);
+            video.src = src;
+        }
+        window.onload = poro();
+    </script>
+
     <div class="header">
-    <h1>Ability Poro</h1>
+      <a style="margin-left:30px;text-decoration:none;font-size: 4.4em;" href="{{ url_for('index') }}">Ability Poro</a>
+      <a style="margin-left:50px;text-decoration:none;font-size: 2.0em;" href="{{ url_for('champions') }}">Champions</a>
+      <a style="margin-left:30px;text-decoration:none;font-size: 2.0em;" href="{{ url_for('items') }}">Items</a>
     </div>
 
     <div class="page">
       <table>
         <tr>
           <th>Items</th>
-          <th>Purchase Rate</th>
-          <th>Win Rate</th>
-          <th>Most Bought By</th>
-          <th>Purchase Rate</th>
-          <th>Win Rate</th>
-          <th>Most Bought By</th>
+          <th>Purchase Rate Patch 5.11</th>
+          <th>Purchase Rate Patch 5.14</th>
+          <th>Win Rate Patch 5.11</th>
+          <th>Win Rate Patch 5.14</th>
+          <th>Most Bought By Patch 5.11</th>
+          <th>Most Bought By Patch 5.14</th>
         </tr>
       {% for i in range(itemNames | length) %}
         {% if i%2==0 %}
-        <tr class="even">
+        <tr class="even" style="font-size:15px">
         {% else %}
-        <tr>
+        <tr style="font-size:15px">
         {% endif %}
           <td>
             <img style="float:left" src={{ "http://ddragon.leagueoflegends.com/cdn/5.11.1/img/item/{}.png".format(itemDict[itemNames[i]]) }} width="30" height="30" alt={{ itemNames[i] }} title={{ itemNames[i] }}>
-            <a style="line-height:30px;margin-left:20px">{{ itemNames[i] }}</a>
+            <div style="float:left;line-height:30px;margin-left:20px">
+              {{ itemNames[i] }}
+            </div>
           </td>
           <td>
+            {% set pickBefore=(before[itemDict[itemNames[i]]|string]['wins']+before[itemDict[itemNames[i]]|string]['losses'])/2000000 * 100 %}
+            {{ "{:.2f}%".format(pickBefore) }}
           </td>
           <td>
+            {% set pickAfter=(after[itemDict[itemNames[i]]|string]['wins']+after[itemDict[itemNames[i]]|string]['losses'])/2000000 * 100 %}
+            {% if pickBefore < pickAfter %}
+              <div class="up"></div>
+            {% else %}
+              <div class="down"></div>
+            {% endif %}
+            {{ "{:.2f}%".format(pickAfter) }}
           </td>
           <td>
+            {% set winBefore=before[itemDict[itemNames[i]]|string]['wins']/(before[itemDict[itemNames[i]]|string]['wins']+before[itemDict[itemNames[i]]|string]['losses']) * 100 %}
+            {{ "{:.2f}%".format(winBefore) }}
           </td>
           <td>
+            {% set winAfter=after[itemDict[itemNames[i]]|string]['wins']/(after[itemDict[itemNames[i]]|string]['wins']+after[itemDict[itemNames[i]]|string]['losses']) * 100 %}
+            {% if winBefore < winAfter %}
+              <div class="up"></div>
+            {% else %}
+              <div class="down"></div>
+            {% endif %}
+            {{ "{:.2f}%".format(winAfter) }}
           </td>
           <td>
+            {% for i in range((before[itemDict[itemNames[i]]|string]['topChamps'])|length) %}
+              {% set champ=before[itemDict[itemNames[i]]|string]['topChamps'][i] %}
+              {% if i==4 %}
+                <br>
+              {% endif %}
+              <div style="float:left;margin:4px;">
+                {% if championList[champ|int]=="Wukong" %}
+                  <img src={{ "http://ddragon.leagueoflegends.com/cdn/5.11.1/img/champion/MonkeyKing.png" }} width="40" height="40" alt="Wukong" title="Wukong">
+                {% else %}
+                  <img src={{ "http://ddragon.leagueoflegends.com/cdn/5.11.1/img/champion/{}.png".format(championList[champ|int]) }} width="40" height="40" alt="{{ championList[champ|int] }}" title="{{ championList[champ|int] }}">
+                {% endif %}
+                <div style="font-size:12px">
+                  {{ "{:.2f}%".format(before[itemDict[itemNames[i]]|string]['boughtBy'][champ]/(before[itemDict[itemNames[i]]|string]['wins']+before[itemDict[itemNames[i]]|string]['losses']) * 100) }}
+                </div>
+              </div>
+            {% endfor %}
           </td>
           <td>
+            {% for i in range((after[itemDict[itemNames[i]]|string]['topChamps'])|length) %}
+              {% set champ=after[itemDict[itemNames[i]]|string]['topChamps'][i] %}
+              {% if i==4 %}
+                <br>
+              {% endif %}
+              <div style="float:left;margin:4px;">
+                {% if championList[champ|int]=="Wukong" %}
+                  <img src={{ "http://ddragon.leagueoflegends.com/cdn/5.14.1/img/champion/MonkeyKing.png" }} width="40" height="40" alt="Wukong" title="Wukong">
+                {% else %}
+                  <img src={{ "http://ddragon.leagueoflegends.com/cdn/5.14.1/img/champion/{}.png".format(championList[champ|int]) }} width="40" height="40" alt="{{ championList[champ|int] }}" title="{{ championList[champ|int] }}">
+                {% endif %}
+                <div style="font-size:12px">
+                  {{ "{:.2f}%".format(after[itemDict[itemNames[i]]|string]['boughtBy'][champ]/(after[itemDict[itemNames[i]]|string]['wins']+after[itemDict[itemNames[i]]|string]['losses']) * 100) }}
+                </div>
+              </div>
+            {% endfor %}
           </td>
         </tr>
       {% endfor %}
