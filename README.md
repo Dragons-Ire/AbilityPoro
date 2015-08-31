@@ -3,7 +3,8 @@ Entry to Riot's second API challenge. Investigating the change in builds and bui
 
 Live site http://teamcomp.me/AbilityPoro
 
-To Create your own version, you'll need to edit the variable "url" near the start of the file app.py, make it where your version is located.
+To Create your own version, you'll need Python (https://www.python.org/) installed and Flask (http://flask.pocoo.org/) installed as well.
+You'll also need to edit the variable "url" near the start of the file app.py, change it to be where your version is located.
 
 
 The first table can be found on the Champions page. This contains the Pick Rate, Win Rate and Average KDA of each champion, both before the AP item changes, and after.
