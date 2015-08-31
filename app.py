@@ -80,9 +80,9 @@ def items():
     itemDict = {}
     for itemId in itemList:
         itemDict[itemList[itemId]] = itemId
-    with open('static/data/5.11Items.json') as f:
+    with open(url + 'static/data/5.11Items.json') as f:
         before = json.load(f)
-    with open('static/data/5.14Items.json') as f:
+    with open(url + 'static/data/5.14Items.json') as f:
         after = json.load(f)
 
     return render_template('items.html', championList=championList, itemNames=itemNames, itemDict=itemDict, before=before, after=after)

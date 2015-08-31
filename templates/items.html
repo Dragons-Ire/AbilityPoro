@@ -97,7 +97,7 @@
           <td>
             {% for j in range((after[itemDict[itemNames[i]]|string]['topChamps'])|length) %}
               {% set champ=after[itemDict[itemNames[i]]|string]['topChamps'][j] %}
-              {% if i==4 %}
+              {% if j==4 %}
                 <br>
               {% endif %}
               <div style="float:left;margin:4px;">
