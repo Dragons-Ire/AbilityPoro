@@ -24,7 +24,7 @@ The final columns show the champions that purchased the item the most and what p
 
 
 
-Given more time I would have made the tables sortable and included fixed the items. (It only considers the final build of the player, what they have in inventory at the end of the game instead of all items purchased).
+Given more time I would have made the tables sortable and fixed the items. (It only considers the final build of the player, what they have in inventory at the end of the game instead of all items purchased).
 
 Thank you for reading
 
