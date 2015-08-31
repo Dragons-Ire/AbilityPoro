@@ -77,9 +77,9 @@
             {{ "{:.2f}%".format(winAfter) }}
           </td>
           <td>
-            {% for i in range((before[itemDict[itemNames[i]]|string]['topChamps'])|length) %}
-              {% set champ=before[itemDict[itemNames[i]]|string]['topChamps'][i] %}
-              {% if i==4 %}
+            {% for j in range((before[itemDict[itemNames[i]]|string]['topChamps'])|length) %}
+              {% set champ=before[itemDict[itemNames[i]]|string]['topChamps'][j] %}
+              {% if j==4 %}
                 <br>
               {% endif %}
               <div style="float:left;margin:4px;">
@@ -95,8 +95,8 @@
             {% endfor %}
           </td>
           <td>
-            {% for i in range((after[itemDict[itemNames[i]]|string]['topChamps'])|length) %}
-              {% set champ=after[itemDict[itemNames[i]]|string]['topChamps'][i] %}
+            {% for j in range((after[itemDict[itemNames[i]]|string]['topChamps'])|length) %}
+              {% set champ=after[itemDict[itemNames[i]]|string]['topChamps'][j] %}
               {% if i==4 %}
                 <br>
               {% endif %}

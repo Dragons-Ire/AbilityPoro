@@ -56,6 +56,8 @@
             {% if not champions[i]=="TahmKench" %}
               {% set pickBefore=(before["{}".format(championIds[champions[i]])]['wins'] + before["{}".format(championIds[champions[i]])]['losses'])/2000000 * 100 %}
               {{ "{0:.2f}%".format(pickBefore) }}
+            {% else %}
+              {% set pickBefore=0 %}
             {% endif %}
           </td>
           <td>
@@ -71,6 +73,8 @@
             {% if not champions[i]=="TahmKench" %}
               {% set winBefore=(before["{}".format(championIds[champions[i]])]['wins'])/(before["{}".format(championIds[champions[i]])]['wins'] + before["{}".format(championIds[champions[i]])]['losses']) * 100 %}
               {{ "{0:.2f}%".format(winBefore) }}
+            {% else %}
+              {% set winBefore=0 %}
             {% endif %}
           </td>
           <td>
@@ -88,6 +92,8 @@
               <br>
               {% set kdaBefore=(before["{}".format(championIds[champions[i]])]['kills'] + before["{}".format(championIds[champions[i]])]['assists'])/before["{}".format(championIds[champions[i]])]['deaths'] %}
               {{ "Average {:.2f}:1 KDA".format(kdaBefore) }}
+            {% else %}
+              {% set kdaBefore=0 %}
             {% endif %}
           </td>
           <td>
